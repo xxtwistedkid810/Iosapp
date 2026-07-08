@@ -1,0 +1,20 @@
+name: OTPApp
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  OTPApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: AppDelegate.swift
+      - path: ViewController.swift
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_BITCODE: NO
+        SWIFT_VERSION: "5.0"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES

@@ -8,17 +8,15 @@ workflows:
         XCODE_SCHEME: "OTPApp"
       xcode: latest
     scripts:
-      - name: Install Tuist (Homebrew)
+      - name: Install XcodeGen
         script: |
           set -e
-          brew tap tuist/tuist
-          brew install tuist
-          tuist version
+          brew install xcodegen
+          xcodegen version
       - name: Generate Xcode project
         script: |
           set -e
-          export PATH="$HOME/.tuist/bin:$PATH"
-          tuist generate --no-open
+          xcodegen generate
       - name: Build .app and package .ipa (unsigned)
         script: |
           set -e
