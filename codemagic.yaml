@@ -1,0 +1,32 @@
+# Codemagic build config for OTPApp (iOS)
+# Free tier: sign in at https://codemagic.io with your GitHub account,
+# add this repo, and start a build. Download the .ipa from the build artifacts,
+# then install it with Sideloadly on your Windows PC.
+#
+# NOTE: This produces a build artifact IPA. Final signing for your device is
+# done by Sideloadly on Windows using your free Apple ID.
+
+workflows:
+  ios-build:
+    name: OTPApp iOS
+    max_build_duration: 30
+    instance_type: mac_mini_m1
+    environment:
+      vars:
+        XCODE_PROJECT: "OTPApp.xcodeproj"
+        XCODE_SCHEME: "OTPApp"
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Build .ipa
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME" \
+            --disable-xcpretty
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - $CM_BUILD_INITIATOR_EMAIL
