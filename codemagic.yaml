@@ -6,7 +6,12 @@ workflows:
     environment:
       vars:
         XCODE_SCHEME: "OTPApp"
+        BUNDLE_ID: "com.example.OTPApp"
       xcode: latest
+      # Set these as Codemagic secrets (use a throwaway Apple ID, NOT your real one):
+      #   APPLE_ID       -> email of a free throwaway Apple account
+      #   APPLE_PASSWORD -> its password (or app-specific password)
+      #   APPLE_TEAM_ID  -> optional; Codemagic can auto-detect
     scripts:
       - name: Install XcodeGen
         script: |
@@ -17,7 +22,7 @@ workflows:
         script: |
           set -e
           xcodegen generate
-      - name: Build .app and package .ipa (unsigned)
+      - name: Build & package .ipa (signed via Codemagic iOS code signing)
         script: |
           set -e
           xcodebuild -project OTPApp.xcodeproj \
@@ -25,9 +30,8 @@ workflows:
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build/DerivedData \
-            CODE_SIGN_IDENTITY="-" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=YES \
+            -allowProvisioningUpdates \
+            CODE_SIGN_STYLE=Automatic \
             ARCHS=arm64 \
             only_active_arch=NO \
             build
