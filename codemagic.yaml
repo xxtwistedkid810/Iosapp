@@ -7,7 +7,7 @@ workflows:
       vars:
         XCODE_SCHEME: "OTPApp"
         BUNDLE_ID: "com.example.OTPApp"
-      xcode: "15.4"
+      xcode: "15.3"
       # Set these as Codemagic secrets (use a throwaway Apple ID, NOT your real one):
       #   APPLE_ID       -> email of a free throwaway Apple account
       #   APPLE_PASSWORD -> its password (or app-specific password)
