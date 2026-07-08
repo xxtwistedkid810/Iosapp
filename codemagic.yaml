@@ -23,12 +23,26 @@ workflows:
           pwd
           ls -la
           ls -la OTPApp.xcodeproj
-      - name: Build .ipa
+      - name: Build .app and package .ipa (unsigned)
         script: |
           set -e
-          xcode-project build-ipa \
-            --project "$XCODE_PROJECT" \
-            --scheme "$XCODE_SCHEME" \
-            --disable-xcpretty
+          xcodebuild -project "$XCODE_PROJECT" \
+            -scheme "$XCODE_SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            ARCHS=arm64 \
+            only_active_arch=NO \
+            build
+          APP_PATH=$(find build/DerivedData/Build/Products/Release-iphoneos -name "OTPApp.app" | head -n 1)
+          echo "APP_PATH=$APP_PATH"
+          mkdir -p build/ios/ipa/Payload
+          cp -R "$APP_PATH" build/ios/ipa/Payload/
+          cd build/ios/ipa
+          zip -r OTPApp.ipa Payload
+          cd -
     artifacts:
-      - build/ios/ipa/*.ipa
+      - build/ios/ipa/OTPApp.ipa
