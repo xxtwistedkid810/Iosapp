@@ -15,11 +15,18 @@ workflows:
       vars:
         XCODE_PROJECT: "OTPApp.xcodeproj"
         XCODE_SCHEME: "OTPApp"
+        XCODE_WORKSPACE: ""
       xcode: latest
       cocoapods: default
     scripts:
+      - name: Show repo layout
+        script: |
+          pwd
+          ls -la
+          ls -la OTPApp.xcodeproj
       - name: Build .ipa
         script: |
+          set -e
           xcode-project build-ipa \
             --project "$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME" \
