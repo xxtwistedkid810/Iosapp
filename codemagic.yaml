@@ -1,11 +1,3 @@
-# Codemagic build config for OTPApp (iOS)
-# Free tier: sign in at https://codemagic.io with your GitHub account,
-# add this repo, and start a build. Download the .ipa from the build artifacts,
-# then install it with Sideloadly on your Windows PC.
-#
-# NOTE: This produces a build artifact IPA. Final signing for your device is
-# done by Sideloadly on Windows using your free Apple ID.
-
 workflows:
   ios-build:
     name: OTPApp iOS
@@ -13,20 +5,24 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       vars:
-        XCODE_PROJECT: "OTPApp.xcodeproj"
         XCODE_SCHEME: "OTPApp"
       xcode: latest
-      cocoapods: default
     scripts:
-      - name: Show repo layout
+      - name: Install Tuist
         script: |
-          pwd
-          ls -la
-          ls -la OTPApp.xcodeproj
+          set -e
+          curl -Ls https://install.tuist.io | bash
+          export PATH="$HOME/.tuist/bin:$PATH"
+          tuist version
+      - name: Generate Xcode project
+        script: |
+          set -e
+          export PATH="$HOME/.tuist/bin:$PATH"
+          tuist generate --no-open
       - name: Build .app and package .ipa (unsigned)
         script: |
           set -e
-          xcodebuild -project "$XCODE_PROJECT" \
+          xcodebuild -project OTPApp.xcodeproj \
             -scheme "$XCODE_SCHEME" \
             -configuration Release \
             -sdk iphoneos \
