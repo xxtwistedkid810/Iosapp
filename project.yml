@@ -8,8 +8,7 @@ targets:
     type: application
     platform: iOS
     sources:
-      - path: AppDelegate.swift
-      - path: ViewController.swift
+      - path: ContentView.swift
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
@@ -18,3 +17,4 @@ targets:
         SWIFT_VERSION: "5.0"
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "Used to send lock commands to your PC on the local network."
