@@ -15,7 +15,6 @@ workflows:
       vars:
         XCODE_PROJECT: "OTPApp.xcodeproj"
         XCODE_SCHEME: "OTPApp"
-        XCODE_WORKSPACE: ""
       xcode: latest
       cocoapods: default
     scripts:
