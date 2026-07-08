@@ -32,7 +32,3 @@ workflows:
             --disable-xcpretty
     artifacts:
       - build/ios/ipa/*.ipa
-    publishing:
-      email:
-        recipients:
-          - $CM_BUILD_INITIATOR_EMAIL
