@@ -8,11 +8,11 @@ workflows:
         XCODE_SCHEME: "OTPApp"
       xcode: latest
     scripts:
-      - name: Install Tuist
+      - name: Install Tuist (Homebrew)
         script: |
           set -e
-          curl -Ls https://install.tuist.io | bash
-          export PATH="$HOME/.tuist/bin:$PATH"
+          brew tap tuist/tuist
+          brew install tuist
           tuist version
       - name: Generate Xcode project
         script: |
